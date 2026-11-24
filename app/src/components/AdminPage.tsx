@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import type { SiteId, WaConfig, WaNumber } from '../../shared/whatsapp';
-import { DEFAULT_SITE, FALLBACK_PHONE, MAX_NUMBERS, SITES } from '../../shared/whatsapp';
+import { DEFAULT_SITE, MAX_NUMBERS, SITES } from '../../shared/whatsapp';
 
 type Status = 'loading' | 'login' | 'ready';
 
@@ -175,7 +175,7 @@ export function AdminPage() {
       </div>
 
       <p style={{ color: '#4A5568', fontSize: 14, marginBottom: 20 }}>
-        当前网站首页的 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭时，按钮使用网站自己的默认号码（{FALLBACK_PHONE}）。
+        当前网站首页的 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭或读取失败时，按钮使用该网站自己写死的默认号码。
       </p>
 
       <div style={card}>
