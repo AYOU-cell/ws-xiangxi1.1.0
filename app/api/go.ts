@@ -12,15 +12,18 @@ export async function GET(req: Request) {
 }
 
 async function pickAndCount(req: Request, site: SiteId): Promise<string> {
+  let picked: ReturnType<typeof pickNumber> = null;
   try {
     const { config, cursor } = await fetchRouting(site);
-    const picked = pickNumber(config, cursor);
-    if (picked) {
-      await recordClick(site, picked.id, await visitorHash(req));
-      return waUrl(picked.phone);
-    }
+    picked = pickNumber(config, cursor);
   } catch (err) {
-    console.error('wa click failed', err);
+    console.error('wa routing failed', err);
   }
-  return waUrl(SITE_DEFAULT_PHONE[site]);
+  if (!picked) return waUrl(SITE_DEFAULT_PHONE[site]);
+  try {
+    await recordClick(site, picked.id, await visitorHash(req));
+  } catch (err) {
+    console.error('wa click count failed', err);
+  }
+  return waUrl(picked.phone);
 }
