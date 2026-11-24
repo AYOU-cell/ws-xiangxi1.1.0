@@ -2,6 +2,19 @@ export const FALLBACK_PHONE = '12182135478';
 export const FALLBACK_URL = `https://wa.me/${FALLBACK_PHONE}`;
 export const MAX_NUMBERS = 50;
 
+export const SITES = [
+  { id: 'offer-b3', name: 'offer-b3（offer-b3.ezecomclass.com）' },
+  { id: 'tk1-19', name: 'tk1-19（gga.ezecomacademy.com）' },
+] as const;
+
+export type SiteId = (typeof SITES)[number]['id'];
+
+export const DEFAULT_SITE: SiteId = 'offer-b3';
+
+export function isSiteId(value: unknown): value is SiteId {
+  return SITES.some((site) => site.id === value);
+}
+
 export type Mode = 'round_robin' | 'random';
 
 export type WaNumber = {

@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
-import type { WaConfig, WaNumber } from '../../shared/whatsapp';
-import { FALLBACK_PHONE, MAX_NUMBERS } from '../../shared/whatsapp';
+import type { SiteId, WaConfig, WaNumber } from '../../shared/whatsapp';
+import { DEFAULT_SITE, FALLBACK_PHONE, MAX_NUMBERS, SITES } from '../../shared/whatsapp';
 
 type Status = 'loading' | 'login' | 'ready';
 
@@ -15,14 +15,15 @@ const danger: CSSProperties = { ...button, background: '#FDECEC', color: '#B4231
 
 export function AdminPage() {
   const [status, setStatus] = useState<Status>('loading');
+  const [site, setSite] = useState<SiteId>(DEFAULT_SITE);
   const [config, setConfig] = useState<WaConfig | null>(null);
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
 
-  async function load() {
+  async function load(target: SiteId = site) {
     try {
-      const res = await fetch('/api/admin/config', { cache: 'no-store' });
+      const res = await fetch(`/api/admin/config?site=${target}`, { cache: 'no-store' });
       if (!res.ok) {
         setStatus('login');
         return;
@@ -34,6 +35,13 @@ export function AdminPage() {
       setMessage('无法连接服务器');
     }
   }
+
+  function switchSite(next: SiteId) {
+    setSite(next);
+    setMessage('');
+    load(next);
+  }
+
 
   useEffect(() => {
     load();
@@ -72,7 +80,7 @@ export function AdminPage() {
     setBusy(true);
     setMessage('');
     try {
-      const res = await fetch('/api/admin/config', {
+      const res = await fetch(`/api/admin/config?site=${site}`, {
         method: 'PUT',
         headers: JSON_HEADERS,
         body: JSON.stringify(config),
@@ -152,8 +160,22 @@ export function AdminPage() {
         <h1 style={{ fontSize: 22 }}>WhatsApp 号码管理</h1>
         <button onClick={logout} style={ghost}>退出</button>
       </div>
+
+      <div style={{ ...card, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <label style={{ fontSize: 14, fontWeight: 600 }}>网站</label>
+        <select
+          value={site}
+          onChange={(e) => switchSite(e.target.value as SiteId)}
+          style={{ ...input, width: 'auto', flex: 1 }}
+        >
+          {SITES.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
+      </div>
+
       <p style={{ color: '#4A5568', fontSize: 14, marginBottom: 20 }}>
-        首页三个 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭时，按钮指向默认号码 {FALLBACK_PHONE}。
+        当前网站首页的 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭时，按钮使用网站自己的默认号码（{FALLBACK_PHONE}）。
       </p>
 
       <div style={card}>

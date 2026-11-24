@@ -1,9 +1,13 @@
 import { redis } from './redis';
-import { parseWaConfig, type WaConfig } from '../shared/whatsapp';
+import { DEFAULT_SITE, parseWaConfig, type SiteId, type WaConfig } from '../shared/whatsapp';
 
-const CONFIG_KEY = 'wa:config';
-const CURSOR_KEY = 'wa:cursor';
 const EMPTY: WaConfig = { mode: 'round_robin', numbers: [] };
+
+// offer-b3 keeps the original unsuffixed keys, so its saved numbers stay in place.
+function keysFor(site: SiteId) {
+  const suffix = site === DEFAULT_SITE ? '' : `:${site}`;
+  return { config: `wa:config${suffix}`, cursor: `wa:cursor${suffix}` };
+}
 
 function parseStored(raw: unknown): WaConfig {
   if (typeof raw !== 'string') return EMPTY;
@@ -15,19 +19,20 @@ function parseStored(raw: unknown): WaConfig {
   }
 }
 
-export async function fetchRouting(): Promise<{ config: WaConfig; cursor: number }> {
+export async function fetchRouting(site: SiteId): Promise<{ config: WaConfig; cursor: number }> {
+  const keys = keysFor(site);
   const [raw, cursor] = await redis([
-    ['GET', CONFIG_KEY],
-    ['INCR', CURSOR_KEY],
+    ['GET', keys.config],
+    ['INCR', keys.cursor],
   ]);
   return { config: parseStored(raw), cursor: Number(cursor) };
 }
 
-export async function readConfig(): Promise<WaConfig> {
-  const [raw] = await redis([['GET', CONFIG_KEY]]);
+export async function readConfig(site: SiteId): Promise<WaConfig> {
+  const [raw] = await redis([['GET', keysFor(site).config]]);
   return parseStored(raw);
 }
 
-export async function writeConfig(config: WaConfig): Promise<void> {
-  await redis([['SET', CONFIG_KEY, JSON.stringify(config)]]);
+export async function writeConfig(site: SiteId, config: WaConfig): Promise<void> {
+  await redis([['SET', keysFor(site).config, JSON.stringify(config)]]);
 }
