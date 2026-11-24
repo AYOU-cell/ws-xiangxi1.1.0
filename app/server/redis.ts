@@ -1,10 +1,10 @@
 type Reply = { result?: unknown; error?: string };
 
 export async function redis(commands: (string | number)[][]): Promise<unknown[]> {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
   if (!url || !token) {
-    throw new Error('UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN is not set');
+    throw new Error('Redis REST URL or token is not set (UPSTASH_REDIS_REST_* or KV_REST_API_*)');
   }
   const res = await fetch(`${url}/pipeline`, {
     method: 'POST',
