@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useWhatsAppUrl } from '../lib/waUrl';
 
 interface FAQItemProps {
   question: string;
@@ -34,6 +35,7 @@ function FAQItem({ question, answer }: FAQItemProps) {
 
 export function FAQSection() {
   const { t } = useLanguage();
+  const waUrl = useWhatsAppUrl();
   
   const faqs = [
     {
@@ -72,7 +74,7 @@ export function FAQSection() {
         {/* WhatsApp Button */}
         <div className="mb-10">
           <a
-            href="https://wa.me/12182135478"
+            href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#20BA5A] text-white py-4 px-6 rounded-2xl shadow-lg transition-all duration-200 hover:shadow-xl active:scale-95"
