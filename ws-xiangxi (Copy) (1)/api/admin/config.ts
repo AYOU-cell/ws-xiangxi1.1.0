@@ -11,7 +11,7 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
   if (!(await isAdmin(req))) return json({ error: '未登录' }, 401);
   const parsed = parseWaConfig(await req.json().catch(() => null));
-  if (!parsed.ok) return json({ error: parsed.error }, 400);
+  if (parsed.ok === false) return json({ error: parsed.error }, 400);
   await writeConfig(parsed.value);
   return json(parsed.value);
 }
