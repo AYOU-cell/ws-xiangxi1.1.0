@@ -225,9 +225,12 @@ export function AdminPage() {
             <button onClick={() => remove(i)} style={danger}>删除</button>
           </div>
           {n.id && config.stats?.[n.id] && (
-            <p style={{ color: '#4A5568', fontSize: 13, marginTop: 8 }}>
-              点击 {config.stats[n.id].clicks} 次 · 点击人数 {config.stats[n.id].visitors}
-            </p>
+            <div style={{ color: '#4A5568', fontSize: 13, marginTop: 8, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 16px' }}>
+              <span>总点击次数：{config.stats[n.id].totalClicks}</span>
+              <span>总点击人数：{config.stats[n.id].totalVisitors}</span>
+              <span>今日点击次数：{config.stats[n.id].todayClicks}</span>
+              <span>今日点击人数：{config.stats[n.id].todayVisitors}</span>
+            </div>
           )}
         </div>
       ))}
