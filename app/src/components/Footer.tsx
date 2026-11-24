@@ -26,7 +26,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="text-center text-white/60 text-sm">
-          <p>&copy; {new Date().getFullYear()} {t.footer.copyright}</p>
+          <p>&copy; 2020-2026 {t.footer.copyright}</p>
           <p className="mt-2">{t.footer.mission}</p>
         </div>
       </div>

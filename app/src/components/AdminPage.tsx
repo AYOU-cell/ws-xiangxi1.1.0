@@ -1,8 +1,11 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
+import type { NumberStats } from '../../server/stats';
 import type { SiteId, WaConfig, WaNumber } from '../../shared/whatsapp';
 import { DEFAULT_SITE, MAX_NUMBERS, SITES } from '../../shared/whatsapp';
 
 type Status = 'loading' | 'login' | 'ready';
+type Loaded = WaConfig & { stats?: Record<string, NumberStats> };
+
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 
@@ -16,7 +19,7 @@ const danger: CSSProperties = { ...button, background: '#FDECEC', color: '#B4231
 export function AdminPage() {
   const [status, setStatus] = useState<Status>('loading');
   const [site, setSite] = useState<SiteId>(DEFAULT_SITE);
-  const [config, setConfig] = useState<WaConfig | null>(null);
+  const [config, setConfig] = useState<Loaded | null>(null);
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
@@ -28,7 +31,7 @@ export function AdminPage() {
         setStatus('login');
         return;
       }
-      setConfig((await res.json()) as WaConfig);
+      setConfig((await res.json()) as Loaded);
       setStatus('ready');
     } catch {
       setStatus('login');
@@ -85,7 +88,7 @@ export function AdminPage() {
         headers: JSON_HEADERS,
         body: JSON.stringify(config),
       });
-      const data = (await res.json().catch(() => ({}))) as WaConfig & { error?: string };
+      const data = (await res.json().catch(() => ({}))) as Loaded & { error?: string };
       if (res.status === 401) {
         setStatus('login');
         setMessage('登录已过期，请重新登录');
@@ -175,7 +178,7 @@ export function AdminPage() {
       </div>
 
       <p style={{ color: '#4A5568', fontSize: 14, marginBottom: 20 }}>
-        当前网站首页的 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭或读取失败时，按钮使用该网站自己写死的默认号码。
+        当前网站首页的 WhatsApp 按钮会从下面启用的号码中分配一个。全部关闭或读取失败时，按钮使用该网站自己的默认号码。
       </p>
 
       <div style={card}>
@@ -221,6 +224,11 @@ export function AdminPage() {
             <button onClick={() => move(i, 1)} disabled={i === config.numbers.length - 1} style={ghost} aria-label="下移">↓</button>
             <button onClick={() => remove(i)} style={danger}>删除</button>
           </div>
+          {n.id && config.stats?.[n.id] && (
+            <p style={{ color: '#4A5568', fontSize: 13, marginTop: 8 }}>
+              点击 {config.stats[n.id].clicks} 次 · 点击人数 {config.stats[n.id].visitors}
+            </p>
+          )}
         </div>
       ))}
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { FALLBACK_URL } from '../../shared/whatsapp';
+import { DEFAULT_SITE, SITE_DEFAULT_PHONE, waUrl } from '../../shared/whatsapp';
+
+const FALLBACK_URL = waUrl(SITE_DEFAULT_PHONE[DEFAULT_SITE]);
 
 let pending: Promise<string> | null = null;
 

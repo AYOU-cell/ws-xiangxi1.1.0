@@ -1,5 +1,3 @@
-export const FALLBACK_PHONE = '12182135478';
-export const FALLBACK_URL = `https://wa.me/${FALLBACK_PHONE}`;
 export const MAX_NUMBERS = 50;
 
 export const SITES = [
@@ -11,9 +9,16 @@ export type SiteId = (typeof SITES)[number]['id'];
 
 export const DEFAULT_SITE: SiteId = 'offer-b3';
 
+// Used only when a site has no enabled number, so its buttons still open WhatsApp.
+export const SITE_DEFAULT_PHONE: Record<SiteId, string> = {
+  'offer-b3': '12182135478',
+  'tk1-19': '85255945272',
+};
+
 export function isSiteId(value: unknown): value is SiteId {
   return SITES.some((site) => site.id === value);
 }
+
 
 export type Mode = 'round_robin' | 'random';
 
