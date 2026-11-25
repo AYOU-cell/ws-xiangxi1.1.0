@@ -9,6 +9,7 @@ import {
   Store,
 } from 'lucide-react';
 import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.png';
+import logoMark from './assets/ez-entrepreneurship-mark.png';
 import './landing.css';
 
 const WHATSAPP_URL = 'https://wa.me/12182135478';
@@ -91,7 +92,9 @@ export default function App() {
     <div className="site-shell">
       <header className="site-header">
         <a className="brand" href="#top" aria-label="EZ Entrepreneur Academy home">
-          <span className="brand-mark">EZ</span>
+          <span className="brand-logo-wrap">
+            <img className="brand-logo" src={logoMark} alt="" />
+          </span>
           <span>Entrepreneur Academy</span>
         </a>
         <nav aria-label="Main navigation">
@@ -321,7 +324,9 @@ export default function App() {
         <div className="footer-grid">
           <div>
             <a className="brand brand-light" href="#top">
-              <span className="brand-mark">EZ</span>
+              <span className="brand-logo-wrap">
+                <img className="brand-logo" src={logoMark} alt="" />
+              </span>
               <span>Entrepreneur Academy</span>
             </a>
             <p className="company-line">

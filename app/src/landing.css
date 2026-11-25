@@ -72,17 +72,22 @@ a {
   text-decoration: none;
 }
 
-.brand-mark {
+.brand-logo-wrap {
   align-items: center;
-  background: var(--forest);
+  background: #f8f6f0;
   border-radius: 50%;
-  color: var(--lime);
   display: inline-flex;
-  font-size: 13px;
   height: 38px;
   justify-content: center;
-  letter-spacing: -0.04em;
+  overflow: hidden;
+  padding: 3px;
   width: 38px;
+}
+
+.brand-logo {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
 
 .site-header nav {
@@ -185,9 +190,9 @@ a {
 
 .wa-button {
   align-items: center;
-  background: var(--forest);
+  background: #25d366;
   border-radius: 999px;
-  box-shadow: 0 10px 28px rgba(23, 63, 49, 0.18);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.22);
   color: var(--white);
   display: inline-flex;
   font-size: 15px;
@@ -201,7 +206,7 @@ a {
 }
 
 .wa-button:hover {
-  background: #205f45;
+  background: #20bd5a;
   transform: translateY(-2px);
 }
 
@@ -444,17 +449,6 @@ a {
   margin-top: 38px;
 }
 
-.plans-section .wa-button,
-.faq-section .wa-button {
-  background: var(--lime);
-  color: var(--ink);
-}
-
-.plans-section .wa-button:hover,
-.faq-section .wa-button:hover {
-  background: #ebfa91;
-}
-
 .process-section {
   background: var(--cream);
 }
@@ -660,11 +654,6 @@ a {
   color: var(--white);
 }
 
-.brand-light .brand-mark {
-  background: var(--lime);
-  color: var(--ink);
-}
-
 .company-line {
   color: rgba(255, 255, 255, 0.56);
   font-size: 13px;
@@ -750,15 +739,15 @@ a {
 
 @media (max-width: 767px) {
   .site-header {
-    min-height: 68px;
-    padding: 0 20px;
+    min-height: 108px;
+    padding: max(40px, env(safe-area-inset-top, 0px)) 20px 0;
   }
 
   .brand {
     font-size: 13px;
   }
 
-  .brand-mark {
+  .brand-logo-wrap {
     height: 34px;
     width: 34px;
   }
