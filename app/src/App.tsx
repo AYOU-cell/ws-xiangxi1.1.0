@@ -304,7 +304,6 @@ export default function App() {
           <nav aria-label="Legal">
             <a href="#policy-links" title="Link to be added">{copy.footer.privacy}</a>
             <a href="#policy-links" title="Link to be added">{copy.footer.terms}</a>
-            <a href="#policy-links" title="Link to be added">{copy.footer.cancellation}</a>
           </nav>
         </div>
       </footer>

@@ -81,7 +81,6 @@ export const landingCopy = {
       rights: '© 2020–2026 BlueVision Interactive Limited. All rights reserved.',
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
-      cancellation: 'Cancellation Policy',
     },
   },
   zh: {
@@ -164,7 +163,6 @@ export const landingCopy = {
       rights: '© 2020–2026 BlueVision Interactive Limited。保留所有权利。',
       privacy: '隐私政策',
       terms: '服务条款',
-      cancellation: '取消政策',
     },
   },
 } as const;
