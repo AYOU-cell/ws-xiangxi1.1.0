@@ -11,9 +11,9 @@ import {
 import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.png';
 import logoMark from './assets/ez-entrepreneurship-mark.png';
 import { LANGUAGE_LABELS, landingCopy, type LandingLanguage } from './landingCopy';
+import { useWhatsAppUrl } from './lib/waUrl';
 import './landing.css';
 
-const WHATSAPP_URL = 'https://wa.me/12182135478';
 const LANGUAGES: LandingLanguage[] = ['en', 'zh', 'de', 'it', 'es', 'fr'];
 const LOCALE_TAG: Record<LandingLanguage, string> = {
   en: 'en',
@@ -28,13 +28,19 @@ const platforms = ['Shopify', 'Amazon', 'OZON', 'TikTok Shop'];
 const processIcons = [MessageCircle, ClipboardCheck, Store, PackageCheck];
 
 function WhatsAppButton({ label }: { label: string }) {
+  const waUrl = useWhatsAppUrl();
   return (
-    <a className="wa-button" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+    <a className="wa-button" href={waUrl} target="_blank" rel="noreferrer">
       <MessageCircle size={20} aria-hidden="true" />
       <span>{label}</span>
       <ArrowRight size={18} aria-hidden="true" />
     </a>
   );
+}
+
+function FooterWhatsAppLink() {
+  const waUrl = useWhatsAppUrl();
+  return <a href={waUrl}>WhatsApp</a>;
 }
 
 function SectionHeading({
@@ -300,7 +306,7 @@ export default function App() {
               <br />
               <a href="mailto:support@ezecomacademy.com">support@ezecomacademy.com</a>
               {' · '}
-              <a href={WHATSAPP_URL}>WhatsApp: +1 218 213 5478</a>
+              <FooterWhatsAppLink />
             </p>
           </div>
           <div className="footer-disclosures">
