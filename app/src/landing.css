@@ -96,19 +96,18 @@ a {
 }
 
 .language-toggle {
-  align-items: center;
+  appearance: none;
   background: var(--white);
   border: 1px solid #d3dbd5;
   border-radius: 999px;
   color: var(--forest);
   cursor: pointer;
-  display: inline-flex;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 800;
   height: 36px;
-  justify-content: center;
   left: 5vw;
-  min-width: 48px !important;
+  min-width: 90px;
   padding: 0 13px;
   position: absolute;
 }

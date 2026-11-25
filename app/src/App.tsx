@@ -10,10 +10,19 @@ import {
 } from 'lucide-react';
 import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.png';
 import logoMark from './assets/ez-entrepreneurship-mark.png';
-import { landingCopy, type LandingLanguage } from './landingCopy';
+import { LANGUAGE_LABELS, landingCopy, type LandingLanguage } from './landingCopy';
 import './landing.css';
 
 const WHATSAPP_URL = 'https://wa.me/12182135478';
+const LANGUAGES: LandingLanguage[] = ['en', 'zh', 'de', 'it', 'es', 'fr'];
+const LOCALE_TAG: Record<LandingLanguage, string> = {
+  en: 'en',
+  zh: 'zh-CN',
+  de: 'de',
+  it: 'it',
+  es: 'es',
+  fr: 'fr',
+};
 
 const platforms = ['Shopify', 'Amazon', 'OZON', 'TikTok Shop'];
 const processIcons = [MessageCircle, ClipboardCheck, Store, PackageCheck];
@@ -53,7 +62,7 @@ export default function App() {
   const copy = landingCopy[language];
 
   useEffect(() => {
-    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+    document.documentElement.lang = LOCALE_TAG[language];
   }, [language]);
 
   useEffect(() => {
@@ -84,14 +93,18 @@ export default function App() {
           </span>
           <span>Entrepreneur Academy</span>
         </a>
-        <button
+        <select
           className="language-toggle"
-          type="button"
-          onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-          aria-label={language === 'en' ? '切换到中文' : 'Switch to English'}
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as LandingLanguage)}
+          aria-label="Language"
         >
-          {copy.languageLabel}
-        </button>
+          {LANGUAGES.map((lang) => (
+            <option key={lang} value={lang}>
+              {LANGUAGE_LABELS[lang]}
+            </option>
+          ))}
+        </select>
         <nav aria-label="Main navigation">
           <a href="#apply">{copy.nav.plans}</a>
           <a href="#how-it-works">{copy.nav.process}</a>
@@ -299,11 +312,11 @@ export default function App() {
             </p>
           </div>
         </div>
-        <div className="footer-bottom" id="policy-links">
+        <div className="footer-bottom">
           <p>{copy.footer.rights}</p>
           <nav aria-label="Legal">
-            <a href="#policy-links" title="Link to be added">{copy.footer.privacy}</a>
-            <a href="#policy-links" title="Link to be added">{copy.footer.terms}</a>
+            <a href="/privacy">{copy.footer.privacy}</a>
+            <a href="/terms">{copy.footer.terms}</a>
           </nav>
         </div>
       </footer>
