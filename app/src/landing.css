@@ -95,6 +95,28 @@ a {
   right: 5vw;
 }
 
+.language-toggle {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid #d3dbd5;
+  border-radius: 999px;
+  color: var(--forest);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 800;
+  height: 36px;
+  justify-content: center;
+  left: 5vw;
+  min-width: 48px !important;
+  padding: 0 13px;
+  position: absolute;
+}
+
+.language-toggle:hover {
+  border-color: var(--green);
+}
+
 .site-header nav a {
   color: #425149;
   font-size: 14px;
@@ -783,6 +805,12 @@ a {
     width: 34px;
   }
 
+  .language-toggle {
+    left: 16px;
+    min-width: 44px !important;
+    padding: 0 10px;
+  }
+
   .hero {
     display: flex;
     flex-direction: column;
@@ -946,6 +974,10 @@ a {
     gap: 8px;
   }
 
+  .language-toggle {
+    left: 12px;
+  }
+
   .hero {
     padding-left: 16px;
     padding-right: 16px;
@@ -998,6 +1030,17 @@ a {
   .company-line {
     overflow-wrap: anywhere;
   }
+}
+
+html:lang(zh-CN) .site-shell h1,
+html:lang(zh-CN) .site-shell h2,
+html:lang(zh-CN) .site-shell h3 {
+  letter-spacing: -0.035em;
+}
+
+html:lang(zh-CN) .eyebrow,
+html:lang(zh-CN) .plan-label {
+  letter-spacing: 0.08em;
 }
 
 @media (prefers-reduced-motion: reduce) {

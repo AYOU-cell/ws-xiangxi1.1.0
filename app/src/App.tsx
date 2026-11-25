@@ -11,56 +11,15 @@ import {
 } from 'lucide-react';
 import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.png';
 import logoMark from './assets/ez-entrepreneurship-mark.png';
+import { landingCopy, type LandingLanguage } from './landingCopy';
 import './landing.css';
 
 const WHATSAPP_URL = 'https://wa.me/12182135478';
 
 const platforms = ['Shopify', 'Amazon', 'OZON', 'TikTok Shop'];
+const processIcons = [MessageCircle, ClipboardCheck, Store, PackageCheck];
 
-const faqs = [
-  {
-    question: 'I have no experience. Can I still do this?',
-    answer:
-      'Yes. Many people start with no experience, and we guide you through each step. How well your store performs depends on your effort, your products and the market.',
-  },
-  {
-    question: 'Is it free?',
-    answer:
-      "There is no upfront fee. We charge 5% (Self-Managed) or 9% (Fully Managed) of your store's sales revenue. You also pay your own inventory, platform and advertising costs.",
-  },
-  {
-    question: 'How long before I see results?',
-    answer:
-      "It varies a lot. Some stores get early orders, many take months, and some never become profitable. We can't promise any specific result or timeline.",
-  },
-  {
-    question: 'How much do I need to invest?',
-    answer:
-      "That depends on your products, platform fees and whether you advertise. We'll talk through a realistic budget with you before you start.",
-  },
-  {
-    question: 'Where do the products come from?',
-    answer:
-      'We help you find suppliers for unbranded or properly licensed products. We do not help sell counterfeit or unauthorized branded goods.',
-  },
-  {
-    question: "What's the difference between the two plans?",
-    answer:
-      'On the Self-Managed plan you run the store with our guidance. On the Fully Managed plan our team handles most daily operations and you review and approve key decisions.',
-  },
-  {
-    question: 'Can I do this alongside a full-time job?',
-    answer:
-      'Many people do. The Self-Managed plan usually needs 1–3 hours a day; the Fully Managed plan needs less of your time but has a higher fee.',
-  },
-  {
-    question: 'Can I stop at any time?',
-    answer:
-      'Yes. There is no cancellation fee or notice period. You can stop using the service at any time. Please contact us so we can confirm the end of the service in writing and close out any active work.',
-  },
-];
-
-function WhatsAppButton({ label = 'Chat with us on WhatsApp' }: { label?: string }) {
+function WhatsAppButton({ label }: { label: string }) {
   return (
     <a className="wa-button" href={WHATSAPP_URL} target="_blank" rel="noreferrer">
       <MessageCircle size={20} aria-hidden="true" />
@@ -91,6 +50,12 @@ function SectionHeading({
 export default function App() {
   const heroCtaRef = useRef<HTMLDivElement>(null);
   const [showFloatingCta, setShowFloatingCta] = useState(false);
+  const [language, setLanguage] = useState<LandingLanguage>('en');
+  const copy = landingCopy[language];
+
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+  }, [language]);
 
   useEffect(() => {
     const target = heroCtaRef.current;
@@ -110,7 +75,7 @@ export default function App() {
   return (
     <div className="site-shell">
       <div className={`floating-wa ${showFloatingCta ? 'floating-wa-visible' : ''}`}>
-        <WhatsAppButton />
+        <WhatsAppButton label={copy.whatsapp} />
       </div>
 
       <header className="site-header">
@@ -120,35 +85,37 @@ export default function App() {
           </span>
           <span>Entrepreneur Academy</span>
         </a>
+        <button
+          className="language-toggle"
+          type="button"
+          onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
+          aria-label={language === 'en' ? '切换到中文' : 'Switch to English'}
+        >
+          {copy.languageLabel}
+        </button>
         <nav aria-label="Main navigation">
-          <a href="#apply">Plans</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="#about">About</a>
-          <a href="#faq">FAQ</a>
+          <a href="#apply">{copy.nav.plans}</a>
+          <a href="#how-it-works">{copy.nav.process}</a>
+          <a href="#about">{copy.nav.about}</a>
+          <a href="#faq">{copy.nav.faq}</a>
         </nav>
       </header>
 
       <main>
         <section className="hero" id="top">
           <div className="hero-copy">
-            <p className="eyebrow">Practical e-commerce guidance</p>
-            <h1>Build Your Online Store With a Mentor by Your Side</h1>
-            <p className="hero-lead">
-              Personal, step-by-step guidance on store setup, product research and listing on
-              Shopify, Amazon, OZON and TikTok Shop. No upfront fee — we only earn a share of
-              your store revenue.
-            </p>
+            <p className="eyebrow">{copy.hero.eyebrow}</p>
+            <h1>{copy.hero.title}</h1>
+            <p className="hero-lead">{copy.hero.lead}</p>
             <div className="platform-list" aria-label="Supported platforms">
               {platforms.map((platform) => (
                 <span key={platform}>{platform}</span>
               ))}
             </div>
             <div ref={heroCtaRef} className="hero-cta">
-              <WhatsAppButton />
+              <WhatsAppButton label={copy.whatsapp} />
             </div>
-            <p className="disclaimer-line">
-              Results vary. We do not guarantee any income or sales.
-            </p>
+            <p className="disclaimer-line">{copy.hero.disclaimer}</p>
           </div>
 
           <div className="hero-visual">
@@ -157,7 +124,7 @@ export default function App() {
             </div>
             <div className="mentor-note">
               <span className="status-dot" />
-              Personal guidance from setup to launch
+              {copy.hero.note}
             </div>
           </div>
         </section>
@@ -165,35 +132,35 @@ export default function App() {
         <section className="plans-section" id="apply">
           <div className="section-wrap">
             <SectionHeading
-              eyebrow="Clear, aligned fees"
-              title="Two Ways to Work With Us"
-              description="There is no upfront fee for either plan. Instead, we receive a percentage of your store's sales revenue, so our fees are clear from day one."
+              eyebrow={copy.plans.eyebrow}
+              title={copy.plans.title}
+              description={copy.plans.description}
             />
 
             <div className="plan-grid">
               <article className="plan-card">
                 <div className="plan-card-header">
                   <div>
-                    <p className="plan-label">Self-Managed Plan</p>
-                    <h3>Learn while you run your store</h3>
+                    <p className="plan-label">{copy.plans.self.label}</p>
+                    <h3>{copy.plans.self.title}</h3>
                   </div>
                   <div className="fee">
                     <strong>5%</strong>
-                    <span>of store sales revenue</span>
+                    <span>{copy.plans.feeSuffix}</span>
                   </div>
                 </div>
                 <dl className="plan-details">
                   <div>
-                    <dt>Best for</dt>
-                    <dd>People who want to learn and run their own store (about 1–3 hours a day).</dd>
+                    <dt>{copy.plans.bestFor}</dt>
+                    <dd>{copy.plans.self.bestFor}</dd>
                   </div>
                   <div>
-                    <dt>You handle</dt>
-                    <dd>Store registration, product selection, pricing, listings, operations and customer service.</dd>
+                    <dt>{copy.plans.youHandle}</dt>
+                    <dd>{copy.plans.self.youHandle}</dd>
                   </div>
                   <div>
-                    <dt>We provide</dt>
-                    <dd>1-on-1 mentoring, daily guidance and answers to your questions.</dd>
+                    <dt>{copy.plans.weProvide}</dt>
+                    <dd>{copy.plans.self.weProvide}</dd>
                   </div>
                 </dl>
               </article>
@@ -201,26 +168,26 @@ export default function App() {
               <article className="plan-card plan-card-featured">
                 <div className="plan-card-header">
                   <div>
-                    <p className="plan-label">Fully Managed Plan</p>
-                    <h3>Let our team handle daily operations</h3>
+                    <p className="plan-label">{copy.plans.managed.label}</p>
+                    <h3>{copy.plans.managed.title}</h3>
                   </div>
                   <div className="fee">
                     <strong>9%</strong>
-                    <span>of store sales revenue</span>
+                    <span>{copy.plans.feeSuffix}</span>
                   </div>
                 </div>
                 <dl className="plan-details">
                   <div>
-                    <dt>Best for</dt>
-                    <dd>People who prefer us to handle daily operations (about 10 minutes a day to review).</dd>
+                    <dt>{copy.plans.bestFor}</dt>
+                    <dd>{copy.plans.managed.bestFor}</dd>
                   </div>
                   <div>
-                    <dt>You handle</dt>
-                    <dd>Account registration, approving products and setting prices.</dd>
+                    <dt>{copy.plans.youHandle}</dt>
+                    <dd>{copy.plans.managed.youHandle}</dd>
                   </div>
                   <div>
-                    <dt>We provide</dt>
-                    <dd>Product research, listings, inventory and order sync, shipping coordination, store maintenance and daily reports.</dd>
+                    <dt>{copy.plans.weProvide}</dt>
+                    <dd>{copy.plans.managed.weProvide}</dd>
                   </div>
                 </dl>
               </article>
@@ -228,14 +195,10 @@ export default function App() {
 
             <div className="cost-note">
               <CircleDollarSign size={22} aria-hidden="true" />
-              <p>
-                You are responsible for your own store, inventory costs, platform fees and any
-                advertising spend. Sales depend on your products, market conditions and many
-                other factors.
-              </p>
+              <p>{copy.plans.costNote}</p>
             </div>
             <div className="centered-action">
-              <WhatsAppButton />
+              <WhatsAppButton label={copy.whatsapp} />
             </div>
           </div>
         </section>
@@ -243,45 +206,24 @@ export default function App() {
         <section className="process-section" id="how-it-works">
           <div className="section-wrap">
             <SectionHeading
-              eyebrow="A practical path forward"
-              title="How It Works"
-              description="Four clear steps, with honest guidance at every stage."
+              eyebrow={copy.process.eyebrow}
+              title={copy.process.title}
+              description={copy.process.description}
             />
             <ol className="process-grid">
-              {[
-                {
-                  icon: MessageCircle,
-                  title: 'Chat with us',
-                  text: "Tell us about your goals, available time and budget. We'll explain both plans and answer your questions.",
-                },
-                {
-                  icon: ClipboardCheck,
-                  title: 'Choose a plan',
-                  text: "If it's a good fit, choose the Self-Managed or Fully Managed plan and agree the terms in writing.",
-                },
-                {
-                  icon: Store,
-                  title: 'Set up your store',
-                  text: 'We guide you through account registration, store setup and your first product research.',
-                },
-                {
-                  icon: PackageCheck,
-                  title: 'Launch and improve',
-                  text: 'List your first products, then keep improving with regular check-ins and practical advice.',
-                },
-              ].map((step, index) => (
+              {copy.process.steps.map((step, index) => {
+                const StepIcon = processIcons[index];
+                return (
                 <li key={step.title}>
                   <div className="step-number">0{index + 1}</div>
-                  <step.icon size={24} aria-hidden="true" />
+                  <StepIcon size={24} aria-hidden="true" />
                   <h3>{step.title}</h3>
                   <p>{step.text}</p>
                 </li>
-              ))}
+                );
+              })}
             </ol>
-            <p className="fit-note">
-              Not everyone is a good fit. If we don&apos;t think we can help you, we&apos;ll tell
-              you honestly.
-            </p>
+            <p className="fit-note">{copy.process.fitNote}</p>
           </div>
         </section>
 
@@ -291,29 +233,18 @@ export default function App() {
               <img src={portraitImage} alt="Mentor from EZ Entrepreneur Academy" />
             </div>
             <div className="about-copy">
-              <SectionHeading eyebrow="Guidance from real people" title="About Us" />
-              <p>
-                EZ Entrepreneur Academy is operated by BlueVision Interactive Limited. We help
-                people set up and run online stores on Shopify, Amazon, OZON and TikTok Shop with
-                practical, hands-on guidance.
-              </p>
+              <SectionHeading eyebrow={copy.about.eyebrow} title={copy.about.title} />
+              <p>{copy.about.intro}</p>
               <div className="mentor-card">
-                <p className="mentor-title">Your mentor</p>
-                <h3>A dedicated e-commerce guide by your side</h3>
-                <p>
-                  Your mentor works with you on store setup, product research and listings, and
-                  helps you make informed decisions as your store develops.
-                </p>
+                <p className="mentor-title">{copy.about.mentorLabel}</p>
+                <h3>{copy.about.mentorTitle}</h3>
+                <p>{copy.about.mentorText}</p>
               </div>
               <div className="earning-model">
                 <Handshake size={24} aria-hidden="true" />
                 <div>
-                  <h3>How we earn money</h3>
-                  <p>
-                    We don&apos;t sell courses. We earn a percentage of your store&apos;s sales
-                    revenue under the plan you choose. We may also receive referral rewards from
-                    e-commerce platforms when you open a store through our partner link.
-                  </p>
+                  <h3>{copy.about.earningTitle}</h3>
+                  <p>{copy.about.earningText}</p>
                 </div>
               </div>
             </div>
@@ -323,12 +254,12 @@ export default function App() {
         <section className="faq-section" id="faq">
           <div className="section-wrap faq-wrap">
             <SectionHeading
-              eyebrow="Straight answers"
-              title="Frequently Asked Questions"
-              description="What to know before deciding whether this service is right for you."
+              eyebrow={copy.faq.eyebrow}
+              title={copy.faq.title}
+              description={copy.faq.description}
             />
             <div className="faq-list">
-              {faqs.map((faq) => (
+              {copy.faq.items.map((faq) => (
                 <details key={faq.question}>
                   <summary>
                     <span>{faq.question}</span>
@@ -339,7 +270,7 @@ export default function App() {
               ))}
             </div>
             <div className="centered-action">
-              <WhatsAppButton />
+              <WhatsAppButton label={copy.whatsapp} />
             </div>
           </div>
         </section>
@@ -355,7 +286,7 @@ export default function App() {
               <span>Entrepreneur Academy</span>
             </a>
             <p className="company-line">
-              A service of BlueVision Interactive Limited
+              {copy.footer.service}
               <br />
               UNIT 1618A, 16/F, PIONEER CENTRE, 750 NATHAN ROAD, MONG KOK, HONG KONG
               <br />
@@ -366,24 +297,19 @@ export default function App() {
           </div>
           <div className="footer-disclosures">
             <p>
-              <strong>Disclosure:</strong> We earn a percentage of store sales revenue from
-              clients on our paid plans. We may also receive referral rewards from e-commerce
-              platforms when you open a store through our partner link.
+              <strong>{copy.footer.disclosureLabel}</strong> {copy.footer.disclosure}
             </p>
             <p>
-              <strong>Important disclaimer:</strong> EZ Entrepreneur Academy provides guidance
-              and store management services. We do not guarantee any income, sales or profit.
-              Results depend on individual effort, products, market conditions and other factors.
-              Running an online store involves costs and financial risk.
+              <strong>{copy.footer.disclaimerLabel}</strong> {copy.footer.disclaimer}
             </p>
           </div>
         </div>
         <div className="footer-bottom" id="policy-links">
-          <p>© 2020–2026 BlueVision Interactive Limited. All rights reserved.</p>
+          <p>{copy.footer.rights}</p>
           <nav aria-label="Legal">
-            <a href="#policy-links" title="Link to be added">Privacy Policy</a>
-            <a href="#policy-links" title="Link to be added">Terms of Service</a>
-            <a href="#policy-links" title="Link to be added">Cancellation Policy</a>
+            <a href="#policy-links" title="Link to be added">{copy.footer.privacy}</a>
+            <a href="#policy-links" title="Link to be added">{copy.footer.terms}</a>
+            <a href="#policy-links" title="Link to be added">{copy.footer.cancellation}</a>
           </nav>
         </div>
       </footer>
