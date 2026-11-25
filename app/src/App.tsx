@@ -12,6 +12,7 @@ import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.
 import logoMark from './assets/ez-entrepreneurship-mark.png';
 import { LANGUAGE_LABELS, landingCopy, type LandingLanguage } from './landingCopy';
 import { useWhatsAppUrl } from './lib/waUrl';
+import { detectBrowserLanguage } from './lib/detectLanguage';
 import './landing.css';
 
 const LANGUAGES: LandingLanguage[] = ['en', 'zh', 'de', 'it', 'es', 'fr'];
@@ -64,7 +65,7 @@ function SectionHeading({
 export default function App() {
   const heroCtaRef = useRef<HTMLDivElement>(null);
   const [showFloatingCta, setShowFloatingCta] = useState(false);
-  const [language, setLanguage] = useState<LandingLanguage>('en');
+  const [language, setLanguage] = useState<LandingLanguage>(detectBrowserLanguage);
   const copy = landingCopy[language];
 
   useEffect(() => {

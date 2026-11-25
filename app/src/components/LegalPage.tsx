@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import logoMark from '../assets/ez-entrepreneurship-mark.png';
 import { LANGUAGE_LABELS, type LandingLanguage } from '../landingCopy';
 import { legalCopy, type LegalDoc } from '../legalCopy';
+import { detectBrowserLanguage } from '../lib/detectLanguage';
 import '../landing.css';
 import '../legal.css';
 
@@ -21,7 +22,7 @@ function detectInitialLanguage(): LandingLanguage {
   if (requested && LANGUAGES.includes(requested as LandingLanguage)) {
     return requested as LandingLanguage;
   }
-  return 'en';
+  return detectBrowserLanguage();
 }
 
 export function LegalPage({ doc }: { doc: 'privacy' | 'terms' }) {
