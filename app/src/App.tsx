@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   ChevronDown,
-  CircleDollarSign,
   ClipboardCheck,
   Handshake,
   MessageCircle,
@@ -193,10 +192,6 @@ export default function App() {
               </article>
             </div>
 
-            <div className="cost-note">
-              <CircleDollarSign size={22} aria-hidden="true" />
-              <p>{copy.plans.costNote}</p>
-            </div>
             <div className="centered-action">
               <WhatsAppButton label={copy.whatsapp} />
             </div>

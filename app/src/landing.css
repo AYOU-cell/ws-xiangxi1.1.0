@@ -477,25 +477,6 @@ a {
   color: var(--muted);
 }
 
-.cost-note {
-  align-items: flex-start;
-  background: rgba(223, 243, 109, 0.08);
-  border: 1px solid rgba(223, 243, 109, 0.24);
-  border-radius: 16px;
-  color: rgba(255, 255, 255, 0.75);
-  display: flex;
-  font-size: 13px;
-  gap: 12px;
-  line-height: 1.65;
-  margin-top: 22px;
-  padding: 18px 20px;
-}
-
-.cost-note svg {
-  color: var(--lime);
-  flex: 0 0 auto;
-}
-
 .centered-action {
   display: flex;
   justify-content: center;
@@ -905,10 +886,6 @@ a {
   .plan-details div {
     grid-template-columns: 1fr;
     gap: 8px;
-  }
-
-  .cost-note {
-    padding: 16px;
   }
 
   .process-grid {

@@ -34,7 +34,6 @@ export const landingCopy = {
         youHandle: 'Account registration, approving products and setting prices.',
         weProvide: 'Product research, listings, inventory and order sync, shipping coordination, store maintenance and daily reports.',
       },
-      costNote: 'You are responsible for your own store, inventory costs, platform fees and any advertising spend. Sales depend on your products, market conditions and many other factors.',
     },
     process: {
       eyebrow: 'A practical path forward',
@@ -118,7 +117,6 @@ export const landingCopy = {
         youHandle: '账户注册、产品审批和价格确认。',
         weProvide: '产品调研、商品上架、库存及订单同步、物流协调、店铺维护和每日报告。',
       },
-      costNote: '你需要承担自己的店铺、库存、平台费用及广告支出。销售表现取决于产品、市场环境及其他多种因素。',
     },
     process: {
       eyebrow: '清晰、务实的合作路径',
