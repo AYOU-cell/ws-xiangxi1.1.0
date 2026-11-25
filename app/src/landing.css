@@ -230,18 +230,6 @@ a {
   z-index: 60;
 }
 
-.floating-wa::before {
-  background: rgba(246, 244, 236, 0.92);
-  border: 1px solid rgba(20, 35, 28, 0.08);
-  border-radius: 999px;
-  box-shadow: 0 10px 32px rgba(20, 35, 28, 0.12);
-  content: '';
-  inset: 4px calc(50% - 185px);
-  position: absolute;
-  backdrop-filter: blur(16px);
-  z-index: -1;
-}
-
 .floating-wa-visible {
   opacity: 1;
   pointer-events: auto;
@@ -827,12 +815,7 @@ a {
   .floating-wa {
     padding-left: 16px;
     padding-right: 16px;
-    top: max(6px, env(safe-area-inset-top, 0px));
-  }
-
-  .floating-wa::before {
-    border-radius: 18px;
-    inset: 3px 10px;
+    top: max(54px, env(safe-area-inset-top, 0px));
   }
 
   .floating-wa .wa-button {
