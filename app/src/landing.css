@@ -52,13 +52,11 @@ a {
   background: rgba(246, 244, 236, 0.92);
   border-bottom: 1px solid rgba(20, 35, 28, 0.09);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   min-height: 78px;
   padding: 0 5vw;
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(18px);
-  z-index: 50;
+  position: relative;
+  z-index: 2;
 }
 
 .brand {
@@ -93,6 +91,8 @@ a {
 .site-header nav {
   display: flex;
   gap: 28px;
+  position: absolute;
+  right: 5vw;
 }
 
 .site-header nav a {
@@ -208,6 +208,49 @@ a {
 .wa-button:hover {
   background: #20bd5a;
   transform: translateY(-2px);
+}
+
+.hero-cta {
+  display: inline-flex;
+}
+
+.floating-wa {
+  display: flex;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  padding: 10px 20px;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: max(8px, env(safe-area-inset-top, 0px));
+  transform: translateY(-18px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  visibility: hidden;
+  z-index: 60;
+}
+
+.floating-wa::before {
+  background: rgba(246, 244, 236, 0.92);
+  border: 1px solid rgba(20, 35, 28, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 10px 32px rgba(20, 35, 28, 0.12);
+  content: '';
+  inset: 4px calc(50% - 185px);
+  position: absolute;
+  backdrop-filter: blur(16px);
+  z-index: -1;
+}
+
+.floating-wa-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.floating-wa .wa-button {
+  min-height: 50px;
 }
 
 .disclaimer-line {
@@ -781,6 +824,22 @@ a {
     padding: 0 18px;
   }
 
+  .floating-wa {
+    padding-left: 16px;
+    padding-right: 16px;
+    top: max(6px, env(safe-area-inset-top, 0px));
+  }
+
+  .floating-wa::before {
+    border-radius: 18px;
+    inset: 3px 10px;
+  }
+
+  .floating-wa .wa-button {
+    max-width: 430px;
+    width: 100%;
+  }
+
   .hero-visual,
   .portrait-frame {
     min-height: 0;
@@ -923,6 +982,11 @@ a {
     gap: 8px;
     min-height: 52px;
     padding: 0 14px;
+    width: 100%;
+  }
+
+  .hero-cta {
+    display: flex;
     width: 100%;
   }
 

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   ChevronDown,
@@ -88,8 +89,30 @@ function SectionHeading({
 }
 
 export default function App() {
+  const heroCtaRef = useRef<HTMLDivElement>(null);
+  const [showFloatingCta, setShowFloatingCta] = useState(false);
+
+  useEffect(() => {
+    const target = heroCtaRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowFloatingCta(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="site-shell">
+      <div className={`floating-wa ${showFloatingCta ? 'floating-wa-visible' : ''}`}>
+        <WhatsAppButton />
+      </div>
+
       <header className="site-header">
         <a className="brand" href="#top" aria-label="EZ Entrepreneur Academy home">
           <span className="brand-logo-wrap">
@@ -120,7 +143,9 @@ export default function App() {
                 <span key={platform}>{platform}</span>
               ))}
             </div>
-            <WhatsAppButton />
+            <div ref={heroCtaRef} className="hero-cta">
+              <WhatsAppButton />
+            </div>
             <p className="disclaimer-line">
               Results vary. We do not guarantee any income or sales.
             </p>
