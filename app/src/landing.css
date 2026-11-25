@@ -20,6 +20,7 @@ body {
   background: var(--cream);
   color: var(--ink);
   font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
 
 button,
@@ -29,6 +30,7 @@ a {
 
 .site-shell * {
   box-sizing: border-box;
+  min-width: 0;
 }
 
 .site-shell h1,
@@ -746,7 +748,7 @@ a {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .site-header {
     min-height: 68px;
     padding: 0 20px;
@@ -764,16 +766,30 @@ a {
   .hero {
     display: flex;
     flex-direction: column;
+    gap: 44px;
     min-height: auto;
     padding: 62px 20px 74px;
   }
 
   .hero h1 {
-    font-size: 45px;
+    font-size: clamp(38px, 11.5vw, 48px);
+    letter-spacing: -0.055em;
+    line-height: 1.02;
   }
 
   .hero-lead {
     font-size: 16px;
+    line-height: 1.65;
+    margin-top: 22px !important;
+  }
+
+  .platform-list {
+    margin: 22px 0 24px;
+  }
+
+  .wa-button {
+    max-width: 100%;
+    padding: 0 18px;
   }
 
   .hero-visual,
@@ -782,7 +798,8 @@ a {
   }
 
   .portrait-frame {
-    height: 430px;
+    border-radius: 160px 160px 24px 24px;
+    height: min(116vw, 500px);
   }
 
   .mentor-note {
@@ -791,7 +808,7 @@ a {
   }
 
   .section-wrap {
-    padding: 78px 20px;
+    padding: 74px 20px;
   }
 
   .section-heading {
@@ -799,11 +816,22 @@ a {
   }
 
   .section-heading h2 {
-    font-size: 38px;
+    font-size: clamp(34px, 9vw, 42px);
+    line-height: 1.08;
+  }
+
+  .section-description {
+    font-size: 15px;
+  }
+
+  .plan-card {
+    border-radius: 20px;
+    padding: 24px 22px;
   }
 
   .plan-card-header {
     display: block;
+    margin-bottom: 28px;
   }
 
   .fee {
@@ -820,6 +848,10 @@ a {
     gap: 8px;
   }
 
+  .cost-note {
+    padding: 16px;
+  }
+
   .process-grid {
     grid-template-columns: 1fr;
   }
@@ -833,7 +865,23 @@ a {
   }
 
   .about-image {
-    height: 460px;
+    border-radius: 20px;
+    height: min(116vw, 520px);
+    width: 100%;
+  }
+
+  .mentor-card {
+    padding: 22px;
+  }
+
+  .faq-list summary {
+    font-size: 16px;
+    gap: 18px;
+    padding: 21px 0;
+  }
+
+  .faq-list details > p {
+    padding: 0 30px 22px 0;
   }
 
   .footer-grid,
@@ -854,6 +902,65 @@ a {
   .footer-bottom nav {
     flex-wrap: wrap;
     gap: 12px 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .site-header {
+    padding: 0 16px;
+  }
+
+  .brand {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero h1 {
+    font-size: 37px;
+  }
+
+  .platform-list span {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .wa-button {
+    font-size: 13px;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 14px;
+    width: 100%;
+  }
+
+  .section-wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .plan-card {
+    padding: 22px 18px;
+  }
+
+  .plan-card h3 {
+    font-size: 22px;
+  }
+
+  .centered-action {
+    width: 100%;
+  }
+
+  .site-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .company-line {
+    overflow-wrap: anywhere;
   }
 }
 
