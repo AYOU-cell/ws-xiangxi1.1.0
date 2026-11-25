@@ -11,8 +11,10 @@ import {
 import portraitImage from 'figma:asset/bd1f7fed47f295cb26419e1a7c51e6229abba87e.png';
 import logoMark from './assets/ez-entrepreneurship-mark.png';
 import { LANGUAGE_LABELS, landingCopy, type LandingLanguage } from './landingCopy';
+import { track } from '@vercel/analytics/react';
 import { useWhatsAppUrl } from './lib/waUrl';
 import { detectBrowserLanguage } from './lib/detectLanguage';
+import { useSectionView } from './lib/useSectionView';
 import './landing.css';
 
 const LANGUAGES: LandingLanguage[] = ['en', 'zh', 'de', 'it', 'es', 'fr'];
@@ -28,10 +30,16 @@ const LOCALE_TAG: Record<LandingLanguage, string> = {
 const platforms = ['Shopify', 'Amazon', 'OZON', 'TikTok Shop'];
 const processIcons = [MessageCircle, ClipboardCheck, Store, PackageCheck];
 
-function WhatsAppButton({ label }: { label: string }) {
+function WhatsAppButton({ label, location }: { label: string; location: string }) {
   const waUrl = useWhatsAppUrl();
   return (
-    <a className="wa-button" href={waUrl} target="_blank" rel="noreferrer">
+    <a
+      className="wa-button"
+      href={waUrl}
+      target="_blank"
+      rel="noreferrer"
+      onClick={() => track('whatsapp_click', { location })}
+    >
       <MessageCircle size={20} aria-hidden="true" />
       <span>{label}</span>
       <ArrowRight size={18} aria-hidden="true" />
@@ -41,7 +49,11 @@ function WhatsAppButton({ label }: { label: string }) {
 
 function FooterWhatsAppLink() {
   const waUrl = useWhatsAppUrl();
-  return <a href={waUrl}>WhatsApp</a>;
+  return (
+    <a href={waUrl} onClick={() => track('whatsapp_click', { location: 'footer' })}>
+      WhatsApp
+    </a>
+  );
 }
 
 function SectionHeading({
@@ -68,6 +80,12 @@ export default function App() {
   const [language, setLanguage] = useState<LandingLanguage>(detectBrowserLanguage);
   const copy = landingCopy[language];
 
+  const heroSectionRef = useSectionView('hero');
+  const plansSectionRef = useSectionView('plans');
+  const processSectionRef = useSectionView('process');
+  const aboutSectionRef = useSectionView('about');
+  const faqSectionRef = useSectionView('faq');
+
   useEffect(() => {
     document.documentElement.lang = LOCALE_TAG[language];
   }, [language]);
@@ -90,7 +108,7 @@ export default function App() {
   return (
     <div className="site-shell">
       <div className={`floating-wa ${showFloatingCta ? 'floating-wa-visible' : ''}`}>
-        <WhatsAppButton label={copy.whatsapp} />
+        <WhatsAppButton label={copy.whatsapp} location="floating" />
       </div>
 
       <header className="site-header">
@@ -121,7 +139,7 @@ export default function App() {
       </header>
 
       <main>
-        <section className="hero" id="top">
+        <section className="hero" id="top" ref={heroSectionRef}>
           <div className="hero-copy">
             <p className="eyebrow">{copy.hero.eyebrow}</p>
             <h1>{copy.hero.title}</h1>
@@ -132,7 +150,7 @@ export default function App() {
               ))}
             </div>
             <div ref={heroCtaRef} className="hero-cta">
-              <WhatsAppButton label={copy.whatsapp} />
+              <WhatsAppButton label={copy.whatsapp} location="hero" />
             </div>
             <p className="disclaimer-line">{copy.hero.disclaimer}</p>
           </div>
@@ -148,7 +166,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="plans-section" id="apply">
+        <section className="plans-section" id="apply" ref={plansSectionRef}>
           <div className="section-wrap">
             <SectionHeading
               eyebrow={copy.plans.eyebrow}
@@ -213,12 +231,12 @@ export default function App() {
             </div>
 
             <div className="centered-action">
-              <WhatsAppButton label={copy.whatsapp} />
+              <WhatsAppButton label={copy.whatsapp} location="plans" />
             </div>
           </div>
         </section>
 
-        <section className="process-section" id="how-it-works">
+        <section className="process-section" id="how-it-works" ref={processSectionRef}>
           <div className="section-wrap">
             <SectionHeading
               eyebrow={copy.process.eyebrow}
@@ -242,7 +260,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="about-section" id="about">
+        <section className="about-section" id="about" ref={aboutSectionRef}>
           <div className="section-wrap about-grid">
             <div className="about-image">
               <img src={portraitImage} alt="Mentor from EZ Entrepreneur Academy" />
@@ -266,7 +284,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="faq-section" id="faq">
+        <section className="faq-section" id="faq" ref={faqSectionRef}>
           <div className="section-wrap faq-wrap">
             <SectionHeading
               eyebrow={copy.faq.eyebrow}
@@ -285,7 +303,7 @@ export default function App() {
               ))}
             </div>
             <div className="centered-action">
-              <WhatsAppButton label={copy.whatsapp} />
+              <WhatsAppButton label={copy.whatsapp} location="faq" />
             </div>
           </div>
         </section>

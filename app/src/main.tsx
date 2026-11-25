@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import { Analytics } from "@vercel/analytics/react";
 import App from "./App.tsx";
 import { AdminPage } from "./components/AdminPage.tsx";
 import { LegalPage } from "./components/LegalPage.tsx";
@@ -13,4 +14,9 @@ function render() {
   return <App />;
 }
 
-createRoot(document.getElementById("root")!).render(render());
+createRoot(document.getElementById("root")!).render(
+  <>
+    {render()}
+    <Analytics />
+  </>,
+);
